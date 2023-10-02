@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Untitled</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Bootstrap-Callout-Success.css">
+    <link rel="stylesheet" href="assets/css/Navbar-With-Button-icons.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md bg-body py-3">
+        <div class="container"><a class="navbar-brand d-flex align-items-center" href="#"><span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-alexa">
+                        <path d="M7.996 0A7.998 7.998 0 0 0 0 8a8 8 0 0 0 6.93 7.93v-1.613a1.06 1.06 0 0 0-.717-1.008A5.602 5.602 0 0 1 2.4 7.865 5.579 5.579 0 0 1 8.054 2.4a5.599 5.599 0 0 1 5.535 5.81l-.002.046a6.116 6.116 0 0 1-.012.192l-.005.061a4.85 4.85 0 0 1-.033.284l-.01.068c-.685 4.516-6.564 7.054-6.596 7.068A7.998 7.998 0 0 0 15.992 8 7.998 7.998 0 0 0 7.996.001Z"></path>
+                    </svg></span><span">Rodrigo</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link active" href="/consumos">Consumos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/tarjeta/visa">Visa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/tarjeta/mastercard">Mastercard</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section class="position-relative py-4 py-xl-5">
+        <div class="container position-relative">
+            <div class="row d-flex justify-content-center" style="padding-top: 0px;">
+                <div class="col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+                    <div class="card mb-5">
+                        <div class="card-body p-sm-5" style="padding-top: 16px;">
+                            <h2 class="text-center mb-4">Agregar consumo</h2>
+                            <form method="POST" action="/consumos">
+                                <div class="mb-3"><label class="form-label" for="tarjeta">Tarjeta</label><select class="form-select" name="tarjeta">
+                                        <option value="1">Visa</option>
+                                        <option value="2">Mastercard</option>
+                                    </select></div>
+                                <div class="mb-3"><label class="form-label" for="autor">Consumo</label><input class="form-control" type="text" id="message-1" name="consumo" rows="3"></div>
+                                <div class="mb-3"><label class="form-label" for="autor">Autor</label><select class="form-select" name="autor">
+                                        <option value="rodrigo">Rodrigo</option>
+                                        <option value="luna">Luna</option>
+                                    </select></div>
+                                <div class="mb-3"><label class="form-label" for="cuotas">Cuotas</label><input class="form-control" type="number" id="name-2" name="cuotas" min="0" value="0" style="padding-right: 10px;" required=""></div>
+                                <div class="mb-3"><label class="form-label" for="total">Total</label><input class="form-control" type="number" data-bs-toggle="tooltip" data-bss-tooltip="" id="name-1" name="total" min="0" style="padding-right: 10px;" required=""></div>
+                                <div class="mb-3"><label class="form-label" for="fecha-compra">Fecha de compra</label><input class="form-control" type="date" name="fechaCompra" required=""></div>
+                                <div class="mb-3"></div>
+                                <div class="mb-3"></div>
+                                <div class="mb-3"><textarea class="form-control" id="message-2" name="notas" rows="6" placeholder="Notas"></textarea></div>
+                                <div style="display: block;">
+                                    <div class="row">
+                                        <div class="col"><button class="btn btn-primary d-xl-flex justify-content-xl-center align-items-xl-center d-block w-100" type="submit" style="margin-bottom: 0px;">Agregar</button></div>
+                                        <div class="col"><button class="btn btn-secondary d-block w-100" type="button">Restablecer</button></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+</body>
+
+</html>
