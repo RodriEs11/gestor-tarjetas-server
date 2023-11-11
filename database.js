@@ -1,5 +1,9 @@
+const express = require("express");
+const app = express();
 const mysql = require("mysql");
 const path = require("path");
+const { resourceUsage } = require("process");
+
 require('dotenv').config({ path: path.resolve(__dirname, "keys.env") });
 
 
@@ -23,6 +27,24 @@ database.connect((err) => {
 
 });
 
+
+const sendQuery = (sql) => new Promise((resolve, reject) => {
+
+    database.query(sql, (error, result, fields) => {
+        if (error) reject(error);
+
+        objeto = Object.values(JSON.parse(JSON.stringify(result)));
+        resolve(objeto);
+
+    })
+
+
+});
+
+
+module.exports = { database, sendQuery };
+
+/*
 
 function findTarjetaById(id) {
 
@@ -96,13 +118,14 @@ function insertConsumo(consumo) {
 
     const nombre = consumo.nombre;
     const cantidadCuotas = consumo.cantidadCuotas;
+    const cuotasPagadas = consumo.cuotasPagadas;
     const total = consumo.total;
     const fechaCompra = consumo.fechaCompra;
     const notas = consumo.notas;
     const tarjeta_idTarjeta = consumo.tarjeta_idTarjeta;
     const autor_idAutor = consumo.autor_idAutor;
 
-    let sql = `INSERT INTO consumo(nombre, cantidadCuotas, total, fechaCompra, notas, tarjeta_idTarjeta, autor_idAutor) VALUES ('${nombre}',${cantidadCuotas},${total},'${fechaCompra}','${notas}',${tarjeta_idTarjeta}, ${autor_idAutor});`;
+    let sql = `INSERT INTO consumo(nombre, cantidadCuotas, cuotasPagadas, total, fechaCompra, notas, tarjeta_idTarjeta, autor_idAutor) VALUES ('${nombre}',${cantidadCuotas}, ${cuotasPagadas},${total},'${fechaCompra}','${notas}',${tarjeta_idTarjeta}, ${autor_idAutor});`;
 
     return new Promise((resolve, reject) => {
 
@@ -118,6 +141,46 @@ function insertConsumo(consumo) {
 
 
 }
+
+function getConsumosWithAutorAndCard(){
+
+    let sql = 'SELECT *,consumo.nombre as consumo, autor.nombre as autor, tarjeta.nombre as tarjeta FROM consumo INNER JOIN autor ON autor_idAutor = autor.idAutor INNER JOIN tarjeta ON tarjeta_idTarjeta = idTarjeta;';
+
+    return new Promise((resolve, reject) => {
+
+        database.query(sql, (error, result, fields) => {
+            if (error) reject(error);
+
+            objeto = Object.values(JSON.parse(JSON.stringify(result)));
+            resolve(objeto);
+
+        })
+
+
+    })
+
+}
+
+function getConsumosWithAutorAndCardById(id){
+
+    let sql = `SELECT *,consumo.nombre as consumo, autor.nombre as autor, tarjeta.nombre as tarjetaFROM consumo INNER JOIN autor ON autor_idAutor = autor.idAutor INNER JOIN tarjeta ON tarjeta_idTarjeta = idTarjeta WHERE idConsumo = ${id};`;
+
+    return new Promise((resolve, reject) => {
+
+        database.query(sql, (error, result, fields) => {
+            if (error) reject(error);
+
+            objeto = Object.values(JSON.parse(JSON.stringify(result)));
+            resolve(objeto);
+
+        })
+
+
+    })
+
+}
+
+
 
 function getConsumos() {
 
@@ -137,6 +200,28 @@ function getConsumos() {
     })
 
 }
+
+function getConsumosByIdTarjeta(idTarjeta) {
+
+    let sql = `SELECT *,consumo.nombre as consumo, autor.nombre as autor, tarjeta.nombre as tarjeta FROM consumo INNER JOIN autor ON autor_idAutor = autor.idAutor INNER JOIN tarjeta ON tarjeta_idTarjeta = idTarjeta WHERE tarjeta_idTarjeta = ${idTarjeta};`;
+
+    return new Promise((resolve, reject) => {
+
+        database.query(sql, (error, result, fields) => {
+            if (error) reject(error);
+
+            objeto = Object.values(JSON.parse(JSON.stringify(result)));
+            resolve(objeto);
+
+        })
+
+
+    })
+
+}
+
+
+
 
 function getTarjetas() {
 
@@ -282,4 +367,27 @@ function updateTarjeta(id, tarjeta) {
 }
 
 
-module.exports = { database, setTarjetaLimiteDisponible, insertAutor, insertTarjeta, insertConsumo, getConsumos, getTarjetas, getAutores, findTarjetaById, findAutorById, findConsumoById, updateAutor, updateTarjeta };
+function getTotalAPagarEnCuotasByAutorAndTarjeta(idAutor, idTarjeta) {
+
+    let sql = `SELECT Sum(total/cantidadCuotas) AS totalPagar FROM tarjetas.consumo WHERE autor_idAutor = ${idAutor} AND tarjeta_idTarjeta = ${idTarjeta};`;
+
+    return new Promise((resolve, reject) => {
+
+        database.query(sql, (error, result, fields) => {
+            if (error) reject(error);
+            resolve(result);
+
+        })
+
+
+    })
+
+}
+
+
+
+module.exports = { database, setTarjetaLimiteDisponible, insertAutor, insertTarjeta, insertConsumo, getConsumosByIdTarjeta, getConsumos, getTarjetas, getAutores, findTarjetaById, findAutorById, findConsumoById, updateAutor, updateTarjeta, getConsumosWithAutorAndCard, getConsumosWithAutorAndCardById, getTotalAPagarEnCuotasByAutorAndTarjeta };
+
+
+
+*/

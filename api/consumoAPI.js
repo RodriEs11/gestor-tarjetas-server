@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser")
-const database = require("../database");
 
+const {getConsumos, getConsumoById} = require("../services/consumoService");
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -10,7 +10,7 @@ app.use(bodyParser.json())
 app.get("/api/consumos", (req, res) => {
 
 
-    database.getConsumos().then( (resultados) => {
+    getConsumos().then( (resultados) => {
 
         res.json(resultados);
 
@@ -26,9 +26,8 @@ app.get("/api/consumos/:id", (req, res) => {
 
     const id = req.params.id;
 
-    database.findConsumoById(id).then( (resultados) => {
+    getConsumoById(id).then( (resultados) => {
 
-        
         res.json(resultados);
 
     }).catch( (error) => {
@@ -40,24 +39,77 @@ app.get("/api/consumos/:id", (req, res) => {
 })
 
 
-app.post("/api/consumos/agregar", (req, res) => {
+
+/*
+app.get("/api/consumos/all", (req, res) => {
+
+
+    database.getConsumosWithAutorAndCard().then( (resultados) => {
+
+        res.json(resultados);
+
+    }).catch( (error) => {
+
+        res.send(error);
+    })
+    
+
+})
+
+
+
+app.get("/api/consumos/tarjeta/:id", (req, res) => {
+
+    const id = req.params.id;
+
+    database.getConsumosByIdTarjeta(id).then( (resultados) => {
+
+        res.json(resultados);
+
+    }).catch( (error) => {
+
+        res.send(error);
+    })
+    
+
+})
+
+app.get("/api/consumos/:idConsumo/tarjeta/:idTarjeta", (req, res) => {
+
+    const idAutor = req.params.idConsumo;
+    const idTarjeta = req.params.idTarjeta;
+
+    database.getTotalAPagarEnCuotasByAutorAndTarjeta(idAutor, idTarjeta).then( (resultados) => {
+
+        res.json(resultados);
+
+    }).catch( (error) => {
+
+        res.send(error);
+    })
+    
+
+})
+
+
+
+app.post("/consumos/agregar", (req, res) => {
 
     const parametros = req.body;
 
     const nombre = parametros.consumo;
-    const autor = parametros.autor;
     const cantidadCuotas = parametros.cuotas;
     const total = parametros.total;
     const fechaCompra = parametros.fechaCompra;
     const notas = parametros.notas;
     const tarjeta_idTarjeta = parametros.tarjeta;
-    const autor_idAutor = 1;
-    
+    const cuotasPagadas = 1;
+    const autor_idAutor = parametros.autor;
     
     const consumo = {
         nombre: nombre,
-        autor: autor,
         cantidadCuotas: cantidadCuotas,
+        cuotasPagadas: cuotasPagadas,
         total: total,
         fechaCompra: fechaCompra,
         notas: notas,
@@ -69,7 +121,7 @@ app.post("/api/consumos/agregar", (req, res) => {
 
     database.insertConsumo(consumo).then( (result) => {
 
-        res.redirect("api/consumos");
+        res.sendStatus(200);
 
     })
     .catch( (error) => {
@@ -82,6 +134,6 @@ app.post("/api/consumos/agregar", (req, res) => {
 })
 
 
-
+*/
 
 module.exports = app;
