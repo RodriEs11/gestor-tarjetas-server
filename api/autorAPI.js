@@ -40,7 +40,7 @@ app.get("/api/autores/:id", (req, res) => {
 
 })
 
-app.post("/api/autores/add", (req, res) => {
+app.post("/api/autores/agregar", (req, res) => {
 
     const parametros = req.body;
     const nombre = parametros.nombre;
@@ -55,7 +55,6 @@ app.post("/api/autores/add", (req, res) => {
 
 })
 
-// ?nombre="nuevoNombre"
 app.post("/api/autores/editar/:id", (req, res) => {
 
     const id = req.params.id;
