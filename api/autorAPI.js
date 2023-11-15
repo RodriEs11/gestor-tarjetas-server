@@ -46,7 +46,7 @@ app.post("/api/autores/agregar", (req, res) => {
     const nombre = parametros.nombre;
 
     addAutor(nombre).then((response) => {
-
+        console.log("Se ha agregado un autor");
         res.sendStatus(200);
     }).catch(() => {
         res.sendStatus(500);

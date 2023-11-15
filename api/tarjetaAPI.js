@@ -61,7 +61,7 @@ app.post("/api/tarjetas/agregar", (req, res) => {
     }
 
     addTarjeta(tarjeta).then((resultados) => {
-
+        console.log("Se ha agregado una tarjeta");
         res.sendStatus(200);
 
     }).catch((error) => {
