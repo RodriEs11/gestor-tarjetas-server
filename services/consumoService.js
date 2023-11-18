@@ -5,7 +5,7 @@ const { database, sendQuery } = require("../database");
 
 const getConsumos = () => {
 
-    const sql = `SELECT * from consumo;`;
+    const sql = `CALL obtenerConsumos()`;
 
     return sendQuery(sql).then((response) => {
         return response;

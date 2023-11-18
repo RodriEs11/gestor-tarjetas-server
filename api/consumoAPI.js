@@ -12,7 +12,8 @@ app.get("/api/consumos", (req, res) => {
 
     getConsumos().then((resultados) => {
 
-        res.json(resultados);
+        res.json(resultados[0]); // 0 -> Para no mostrar el retorno de MySql, solamente los valores de los consumos 
+
 
     }).catch((error) => {
 
