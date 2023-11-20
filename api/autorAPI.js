@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser")
 
-const { getAutores, getAutorById, addAutor, updateAutor } = require("../services/autorService");
+const { getAutores, getAutorById, addAutor, updateAutor, obtenerPagarTotalAutor} = require("../services/autorService");
 
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -72,6 +72,25 @@ app.post("/api/autores/editar/:id", (req, res) => {
         res.sendStatus(500);
         console.log("Error al actualizar: " + error)
     })
+
+})
+
+
+app.get("/api/autores/:id/total-a-pagar", (req, res) => {
+
+    const id = req.params.id;
+    const idValido = !isNaN(id);
+
+    if (!idValido) return res.send("Ingrese un ID válido");
+
+    obtenerPagarTotalAutor(id).then((response) => {
+
+        res.json(response[0]); /* 0 -> DEVUELVE SOLAMENTE EL VALOR, SIN RETORNAR INFORMACION EXTRA DE LA DB*/
+
+    }).catch((error) => {
+
+        res.send(error);
+    });
 
 })
 

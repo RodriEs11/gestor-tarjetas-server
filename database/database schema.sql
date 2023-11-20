@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `gestor-tarjetas`.`detalleCuotas` (
   `montoTotal` INT NOT NULL,
   `cantidadCuotas` INT NOT NULL,
   `cuotasRestantes` INT NOT NULL,
+  `numeroProximaCuota`  INT NOT NULL DEFAULT 1,
   `precioCuota` INT NOT NULL,
   `fechaCompra` DATETIME NOT NULL,
   PRIMARY KEY (`idDetalleCuotas`))
@@ -60,6 +61,7 @@ CREATE TABLE IF NOT EXISTS `gestor-tarjetas`.`consumo` (
   `idConsumo` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) NOT NULL,
   `notas` VARCHAR(255) NULL,
+  `finalizado` TINYINT NOT NULL DEFAULT 0,
   `autor_idAutor` INT NOT NULL,
   `detalleCuotas_idDetalleCuotas` INT NOT NULL,
   `tarjeta_idTarjeta` INT NOT NULL,
@@ -90,6 +92,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `gestor-tarjetas`.`cuota` (
   `idCuota` INT NOT NULL,
+  `numeroCuota` INT NOT NULL,
   `detalleCuotas_idDetalleCuotas` INT NOT NULL,
   `fechaVencimiento` DATE NOT NULL,
   `estaPagado` TINYINT NOT NULL,

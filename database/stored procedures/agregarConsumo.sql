@@ -1,6 +1,4 @@
-DELIMITER //
-
-CREATE PROCEDURE agregarConsumo(
+CREATE DEFINER=`root`@`localhost` PROCEDURE `agregarConsumo`(
 	IN idTarjeta INT,
 	IN idAutor INT,
     IN nombre VARCHAR(100),
@@ -20,20 +18,22 @@ BEGIN
     SET cuotasRestantes = cantidadCuotas;
     SET precioCuota = montoTotal / cantidadCuotas;
     
-	INSERT INTO detalleCuotas (montoTotal, cantidadCuotas, cuotasRestantes, precioCuota, fechaCompra) 
-    VALUES (montoTotal, cantidadCuotas, cuotasRestantes, precioCuota, fechaCompra);
+    
+    -- Contador = numero de la cuota ingresada
+	INSERT INTO detalleCuotas (montoTotal, cantidadCuotas, cuotasRestantes, numeroProximaCuota, precioCuota, fechaCompra) 
+    VALUES (montoTotal, cantidadCuotas, cuotasRestantes, contador, precioCuota, fechaCompra);
     
     SET @idDetalleCuotas = LAST_INSERT_ID();
     
-    INSERT INTO consumo (nombre, notas, autor_idAutor, detalleCuotas_idDetalleCuotas, tarjeta_idTarjeta) 
-    VALUES (nombre, notas, idAutor, @idDetalleCuotas, idTarjeta);
+    INSERT INTO consumo (nombre, notas, finalizado, autor_idAutor, detalleCuotas_idDetalleCuotas, tarjeta_idTarjeta) 
+    VALUES (nombre, notas, FALSE, idAutor, @idDetalleCuotas, idTarjeta);
     
-    
-    -- AGREGA SEGUN LA CANTIDAD DE CUOTAS, PARA DETALLAR CADA UNO SI ESTA PAGA O NO
      WHILE contador <= cantidadCuotas DO
 	
-        INSERT INTO cuota (detalleCuotas_idDetalleCuotas, fechaVencimiento, estaPagado)
-        VALUES (@idDetalleCuotas, fechaVencimientoTarjeta, FALSE);
+    
+		
+        INSERT INTO cuota (detalleCuotas_idDetalleCuotas, numeroCuota, fechaVencimiento, estaPagado)
+        VALUES (@idDetalleCuotas, contador, fechaVencimientoTarjeta, FALSE);
         
         -- AGREGA LA FECHA DE VENCIMIENTO DE CADA CUOTA CADA 30 DIAS
 		SET fechaVencimientoTarjeta = DATE_ADD(fechaVencimientoTarjeta, INTERVAL 30 DAY);
@@ -41,6 +41,4 @@ BEGIN
         SET contador = contador + 1;
     END WHILE;
     
-END //
-
-DELIMITER ;
+END
