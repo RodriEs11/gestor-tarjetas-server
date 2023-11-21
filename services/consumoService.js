@@ -47,5 +47,17 @@ const addConsumo = (consumo) => {
         })
 }
 
+const pagarProximaCuota = (idDetallCuotas) => {
 
-module.exports = { getConsumos, getConsumoById, addConsumo};
+    const sql = `CALL pagarProximaCuota('${idDetallCuotas}');`;
+
+    return sendQuery(sql).then((response) => {
+        return response;
+    })
+        .catch((error) => {
+            return error;
+        })
+}
+
+
+module.exports = { getConsumos, getConsumoById, addConsumo, pagarProximaCuota};

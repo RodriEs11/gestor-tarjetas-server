@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser")
 
-const { getConsumos, getConsumoById, addConsumo } = require("../services/consumoService");
+const { getConsumos, getConsumoById, addConsumo, pagarProximaCuota} = require("../services/consumoService");
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -16,7 +16,7 @@ app.get("/api/consumos", (req, res) => {
 
 
     }).catch((error) => {
-
+        console.log(error);
         res.send(error);
     })
 
@@ -32,7 +32,7 @@ app.get("/api/consumos/:id", (req, res) => {
         res.json(resultados);
 
     }).catch((error) => {
-
+        console.log(error);
         res.send(error);
     })
 
@@ -58,7 +58,21 @@ app.post("/api/consumos/agregar", (req, res) => {
         console.log("Se ha agregado un consumo");
         res.json(resultados);
     }).catch((error) => {
+        console.log(error);
         res.send(error);
+    })
+
+})
+
+app.post("/api/consumos/pagar-proxima-cuota/:idDetalleCuotas", (req, res) => {
+
+    const idDetalleCuotas = req.params.idDetalleCuotas;
+      
+    pagarProximaCuota(idDetalleCuotas).then((resultados) => {
+        res.sendStatus(200);
+    }).catch((error) => {
+        console.log(error);
+        res.sendStatus(500);
     })
 
 })

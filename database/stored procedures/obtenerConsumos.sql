@@ -2,8 +2,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerConsumos`()
 BEGIN
 		SELECT 
 			autor.nombre AS autor,
+            finalizado,
 			consumo.nombre,
 			consumo.notas,
+            idDetalleCuotas,
 			detallecuotas.montoTotal, 
 			detallecuotas.precioCuota, 
             detalleCuotas.numeroProximaCuota,

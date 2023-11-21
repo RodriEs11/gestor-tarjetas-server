@@ -59,16 +59,27 @@ const updateTarjeta = (idTarjeta, tarjeta) => {
 
     const sql = `UPDATE tarjeta SET nombre="${nombre}", limiteTotal="${limiteTotal}", ultimoCierre="${ultimoCierre}", vencimiento="${vencimiento}", proximoCierre="${proximoCierre}", proximoVencimiento="${proximoVencimiento}" WHERE idTarjeta = '${idTarjeta}';`;
 
-    return  sendQuery(sql).then( (response) => {
+    return sendQuery(sql).then((response) => {
         return response;
     })
-    .catch( (error) => {
-        return error;
-    })
+        .catch((error) => {
+            return error;
+        })
 
 
 }
 
+const obtenerPagarTotalTarjeta = (idTarjeta) => {
 
+    const sql = `CALL obtenerPagarTotalTarjeta('${idTarjeta}')`;
 
-module.exports = { getTarjetas, getTarjetaById, addTarjeta, updateTarjeta};
+    return sendQuery(sql).then((response) => {
+        return response;
+    })
+        .catch((error) => {
+            return error;
+        })
+
+}
+
+module.exports = { getTarjetas, getTarjetaById, addTarjeta, updateTarjeta,obtenerPagarTotalTarjeta };

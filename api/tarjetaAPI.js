@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser")
 
-const { getTarjetas, getTarjetaById, addTarjeta, updateTarjeta } = require("../services/tarjetaService");
+const { getTarjetas, getTarjetaById, addTarjeta, updateTarjeta, obtenerPagarTotalTarjeta} = require("../services/tarjetaService");
 
 
 
@@ -101,6 +101,26 @@ app.post("/api/tarjetas/editar/:id", (req, res) => {
 
 })
 
+app.get("/api/tarjetas/:id/total-a-pagar", (req, res) => {
+
+    const id = req.params.id;
+
+    const idValido = !isNaN(id);
+
+    if (!idValido) return res.send("Ingrese un ID válido");
+
+
+    obtenerPagarTotalTarjeta(id).then((resultados) => {
+
+        res.json(resultados[0]);
+
+    }).catch((error) => {
+
+        res.send(error);
+    })
+
+
+})
 
 
 module.exports = app;
