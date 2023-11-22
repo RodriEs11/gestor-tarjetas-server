@@ -1,6 +1,7 @@
 CREATE DEFINER=`root`@`localhost` PROCEDURE `obtenerConsumos`()
 BEGIN
 		SELECT 
+			autor.idAutor,
 			autor.nombre AS autor,
             finalizado,
 			consumo.nombre,
